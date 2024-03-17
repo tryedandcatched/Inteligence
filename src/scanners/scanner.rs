@@ -21,6 +21,10 @@ impl ArticleBody {
         hash
     }
 
+    pub fn get_content(&self) -> String {
+        self.content.clone().replace("\n", " ")
+    }
+
     pub fn length(&self) -> usize {
         self.content.len()
     }
@@ -92,7 +96,7 @@ impl Article {
         let str_final = self.hash();
         let content = format!(
             "url:{}\nname:{}\ncontent:{}",
-            self.url, self.name, self.content.content
+            self.url, self.name, self.content.get_content()
         );
         fs::write(format!("./articles/{}", str_final), &content).unwrap();
     }

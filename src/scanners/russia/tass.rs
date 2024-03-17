@@ -5,9 +5,10 @@ pub async fn scan() -> Scraper {
         String::from("Tass"),
         String::from("https://tass.com/"),
         vec![scraper::Selector::parse(".text-content").unwrap()],
-        scraper::Selector::parse("a.news-preview").unwrap(),
+        vec![scraper::Selector::parse("a.news-preview").unwrap()],
         crate::scanners::scanner::Country::Russia,
         Some(String::from("https://tass.com")),
+        None,
     );
     println!("Scraping tass");
     scraper.scan().await;
