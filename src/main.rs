@@ -5,12 +5,9 @@ mod client;
 mod print_utils;
 mod scanners;
 
-use std::sync::Arc;
 use print_utils::print_info;
-use tokio::sync::Mutex;
 
-
-use scanners::{china::chinadaily, french::lemonde, russia::tass, scanner::ScannerTrait, scrapers::Scraper};
+use scanners::{china::chinadaily, french::{lemonde, leparisien}, russia::tass, scanner::ScannerTrait, scrapers::Scraper};
 
 #[tokio::main]
 async fn main() {
@@ -25,8 +22,7 @@ async fn main() {
     print_info("tass done");
     scanners_list.push(chinadaily::scan().await);
     print_info("chinadaily done");
-
-
+    
     for scanner in scanners_list {
         for link in scanner.get_articles(){
             println!("{}", link.name);

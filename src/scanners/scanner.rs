@@ -1,7 +1,7 @@
 use tiger::Tiger;
 use tiger::Digest;
 
-use std::{fs, io::Write};
+use std::fs;
 
 #[derive(Debug, Clone)]
 pub struct ArticleBody {
@@ -80,13 +80,13 @@ impl Article {
         hash
     }
 
-    fn zip(&self) -> String {
-        let mut hasher = Tiger::new();
-        hasher.update(format!("{}{}{}", self.url, self.name, self.content.content));
-        let hash = hasher.finalize();
-        let hash = format!("{:x}", hash);
-        hash
-    }
+    // fn zip(&self) -> String {
+    //     let mut hasher = Tiger::new();
+    //     hasher.update(format!("{}{}{}", self.url, self.name, self.content.content));
+    //     let hash = hasher.finalize();
+    //     let hash = format!("{:x}", hash);
+    //     hash
+    // }
 
     pub fn save(&self) -> () {
         if self.content.length() == 0 {
