@@ -1,8 +1,4 @@
 use std::collections::HashMap;
-use std::iter::Map;
-
-use scraper::html::Select;
-use scraper::selector::{self, Parser};
 
 use crate::scanners::scanner::{self, Article};
 
@@ -47,12 +43,12 @@ impl scanner::ScannerTrait for Scraper {
         let response = response.unwrap();
         let document = scraper::Html::parse_document(&response);
         let content_selector: Vec<scraper::Selector> = self.paragraphes_selectors.clone();
-        let mut all_paragraphs = 0;
+        // let mut all_paragraphs = 0;
         let mut content = String::new();
         for selector in content_selector {
             for x in document.select(&selector) {
                 content.push_str(x.text().collect::<String>().as_str());
-                all_paragraphs += 1;
+                // all_paragraphs += 1;
             }
         }
 
@@ -66,12 +62,16 @@ impl scanner::ScannerTrait for Scraper {
     async fn scan(&mut self) -> Vec<scanner::Article> {
         let client = get_stealh_client();
         let response = client.get(&self.url).send().await;
+
         if response.is_err() {
             return vec![];
         }
+
         let response = response.unwrap();
+
         println!("request status {}", response.status());
         let response = response.text().await.unwrap();
+        
         let document = scraper::Html::parse_document(&response);
         let mut titles: Vec<String> = Vec::new();
         let mut urls: Vec<String> = Vec::new();

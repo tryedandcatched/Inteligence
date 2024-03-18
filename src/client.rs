@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, time::Duration};
 
 pub fn get_stealh_client() -> reqwest::Client {
     let mut headers_h: HashMap<reqwest::header::HeaderName, reqwest::header::HeaderValue> =
@@ -15,10 +15,7 @@ pub fn get_stealh_client() -> reqwest::Client {
         reqwest::header::ACCEPT_LANGUAGE,
         "en-US,en;q=0.5".parse().unwrap(),
     );
-    headers_h.insert(
-        reqwest::header::ACCEPT_ENCODING,
-        "deflate".parse().unwrap(),
-    );
+    headers_h.insert(reqwest::header::ACCEPT_ENCODING, "deflate".parse().unwrap());
     headers_h.insert(reqwest::header::CONNECTION, "keep-alive".parse().unwrap());
     headers_h.insert(
         reqwest::header::REFERER,
@@ -31,6 +28,7 @@ pub fn get_stealh_client() -> reqwest::Client {
     }
 
     reqwest::ClientBuilder::new()
+        .timeout(Duration::new(5, 0))
         .default_headers(headers)
         .build()
         .unwrap()
